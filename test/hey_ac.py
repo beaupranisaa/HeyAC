@@ -5,16 +5,87 @@ from utils import *
 from textblob import TextBlob
 
 class HeyAC:
-    def __init__(self, grammar_path):
+    def __init__(self, grammar_path='../grammars/grammar_combined.txt'):
         self.lemmatizer = WordNetLemmatizer()
         self.grammar = nltk.CFG.fromstring(open(grammar_path, "r"))
         self.parser = nltk.RecursiveDescentParser(self.grammar)
 
-    def classify(self):
+    def classify(self, text):
         '''
         Classifies the intent from the pruned text
         '''
-        raise NotImplementedError()
+        harvest = self.prune(text)
+
+        if harvest['ACT'] is not None:
+            print("[DIRECT COMMAND]")
+        else:
+            print("[INDIRECT COMMAND]")
+            if harvest['VALUE'] is not None:
+                value = harvest['VALUE']
+            else:
+                value = harvest['VBG']
+            print("[VALUE]", value)
+
+            if harvest['NEG'] is not None:
+                neg = True
+            else:
+                neg = False
+            print("[NEG]", neg)
+
+            if harvest['NN_PROP']:
+                prop = harvest['NN_PROP']
+                print('[PROP]', prop)
+            else:
+                prop = None
+
+            if harvest['NN_OBJ']:
+                obj = harvest['NN_OBJ']
+                print('[OBJ]', obj)
+            else:
+                obj = None
+
+            RESPONSE = "[RESPONSE]"
+            response = { 
+                    "TEMP_UP":f"{RESPONSE} Increasing the temperature.",
+                    "TEMP_DOWN":f"{RESPONSE} Decreasing the temperature.",
+                    "HUMIDITY_UP":f"{RESPONSE} Condensing the room.",
+                    "HUMIDITY_DOWN":f"{RESPONSE} Drying the room.",
+                    'FAN_UP':f'{RESPONSE} Increasing the air volume.',
+                    'FAN_DOWN':f'{RESPONSE} Decreasing the air volume.',
+                    'SWING_DOWN':f'{RESPONSE} Swinging downwards.',
+                    'SWING_UP':f'{RESPONSE} Swinging upwards.',
+                    }
+
+            if value in ["COLD", "HOT", "DRY" , "HUMID", "STRONG", "FAST", "WEAK", "SLOW"]:
+                if (value == "COLD" and neg == False) or (value == "HOT" and neg == True):
+                    print(response['TEMP_UP'])
+                elif (value == "HOT" and neg == False) or (value == "COLD" and neg == True):
+                    print(response['TEMP_DOWN'])
+                elif (value == "DRY" and neg == False) or (value == "HUMID" and neg == True):
+                    print(response['HUMIDITY_UP'])
+                elif (value == "HUMID" and neg == False) or (value == "DRY" and neg == True):
+                    print(response['HUMIDITY_DOWN'])
+                elif (value in ["STRONG", "FAST"] and neg == False) or (value in ["WEAK", "SLOW"] and neg == True):
+                    print(response['FAN_DOWN'])
+                elif (value in ["STRONG", "FAST"] and neg == True) or (value in ["WEAK", "SLOW"] and neg == False):
+                    print(response['FAN_UP'])
+
+            if prop == 'VOLUME' and (value in ["HIGH"]):
+                print(response['FAN_DOWN'])
+            elif prop == 'VOLUME' and (value in ["LOW"]):
+                print(response['FAN_UP'])
+            elif prop == 'TEMPERATURE' and (value in ['HIGH']):
+                print(response['TEMP_DOWN'])
+            elif prop == 'TEMPERATURE' and (value in ['LOW']):
+                print(response['TEMP_UP'])
+            elif prop == 'HUMIDITY' and (value in ['LOW']):
+                print(response['HUMIDITY_UP'])
+            elif prop == 'HUMIDITY' and (value in ['HIGH']):
+                print(response['HUMIDITY_DOWN'])
+            elif (prop == 'BREEZE' or obj in ['FAN', 'SWING']) and value in ['HIGH']:
+                print(response['SWING_DOWN'])
+            elif (prop == 'BREEZE' or obj in ["FAN", 'SWING']) and value in ['LOW']:
+                print(response['SWING_UP'])
 
     def prune(self, text):
         '''
@@ -22,6 +93,7 @@ class HeyAC:
         '''
         processed_text, list_var = HeyAC._preprocess(text)
         parse_trees = self._parse(processed_text)
+        parse_trees = self._dummy_to_digit(parse_trees, list_var)
         harvest = self._prune(parse_trees)
         return harvest 
     
@@ -32,14 +104,13 @@ class HeyAC:
         harvest = {
                 'NN_PROP':None,
                 'NN_OBJ':None,
-                'VBG':None,
                 'NEG':None,
                 'VALUE':None,
                 'ACT':None,  
                 'DIR':None,
-                'CO':None,
-                'VB':None,
                 'VBG':None,
+                'CO':None,
+                'UNIT':None,
                 }
         
         if len(parse_trees) > 1:
@@ -59,6 +130,7 @@ class HeyAC:
     def parse(self, text):
         processed_text, list_var = HeyAC._preprocess(text)
         parse_trees = self._parse(processed_text)
+        parse_trees = self._dummy_to_digit(parse_trees, list_var)
         return parse_trees
 
     def _parse(self, text):
@@ -67,6 +139,19 @@ class HeyAC:
         '''
         tokens = HeyAC._tokenize(text)
         parse_trees = list(self.parser.parse(tokens))
+        return parse_trees
+    
+    def _dummy_to_digit(self, parse_trees, list_var):
+        '''
+        Converts hey_num back to the original variable
+        '''
+        for parse_tree in parse_trees:
+            counter = 0
+            for pos in parse_tree.treepositions('leaves'):
+                if parse_tree[pos] == 'hey_num':
+                    parse_tree[pos] = list_var[counter]
+                    counter += 1
+
         return parse_trees
 
     @staticmethod
