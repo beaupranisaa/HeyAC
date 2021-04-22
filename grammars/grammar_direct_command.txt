@@ -1,0 +1,42 @@
+S -> COMP | COMP  VARP 
+COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT
+VARP -> IN VALUE | IN VALUE IN VALUE
+NP -> PROPERTY IN OBJECT | OBJECT PROPERTY| PROPERTY | OBJECT | VALUE
+PROPERTY -> DT NN_PROP | NN_PROP
+OBJECT -> DT NN_OBJ | NN_OBJ
+NN_PROP -> TEMPERATURE | HUMIDITY | VOLUME | MODE 
+NN_OBJ -> FAN | ENVIRONMENT | AC | SWING
+ACT -> ACTIVATE | INCREASE | DECREASE | STOP | COOL_ACT | DRY_ACT | SWING_ACT | SPEED_ACT | TURN_ACT
+ACTIVATE -> "activate" | "set"
+INCREASE -> "increase" | "raise"
+DECREASE -> "decrease" | "reduce" | "lower" 
+STOP -> "stop" | "pause"
+COOL_ACT -> "cool"
+DRY_ACT -> "dry"
+SWING_ACT -> "swing"
+SPEED_ACT -> "speed"
+TURN_ACT -> "turn"
+DIR -> "up" | "off" | "on" | "down"
+DT -> "the"
+TEMPERATURE -> "heat" | "temperature"
+MODE -> "mode"
+FAN -> "fan"
+AC -> "ac" | "air" "conditioner" | "air-conditioner" | "it" | "air"
+IN -> "by" | "at" | "from" | "to" 
+CO -> "hey_num"
+UNIT -> DEGREE | AM | PM | O_CLOCK | PERCENT
+DEGREE -> "degree" | "degrees"
+AM -> "am" | "a.m."
+PM -> "pm" | "p.m."
+O_CLOCK -> "o'clock" | "o" "clock"
+PERCENT -> "percent" | "%"
+HUMIDITY -> "humidity"
+ENVIRONMENT -> "room"
+SWING -> "swing" 
+VOLUME -> "volume" | "speed"
+VALUE -> CO UNIT | CO | MODES | DT MODES
+MODES -> FAN_MODE MODE | COOL_MODE MODE | DRY_MODE MODE | HEAT_MODE MODE
+FAN_MODE -> "fan"
+COOL_MODE -> "cooling" | "cool"
+DRY_MODE -> "dry" | "drying"
+HEAT_MODE -> "heat" | "heating"

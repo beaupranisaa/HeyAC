@@ -1,0 +1,70 @@
+S -> S_INDIRECT | S_DIRECT
+S_INDIRECT -> NP VP
+NP -> PROPERTY IN OBJECT | OBJECT PROPERTY | PROPERTY | OBJECT | VALUE
+OBJECT -> DT NN_OBJ | NN_OBJ
+PROPERTY -> DT NN_PROP | NN_PROP
+VP -> VBZ ADJP | VBZ NEG ADJP | VBZ VBG | VBZ NEG VBG | VBZ VBG ADJP | VBZ NEG VBG ADJP
+ADJP -> RB_P VALUE | VALUE | VALUE PP | VALUE RB_N | VALUE RB_N PP | RB_P VALUE PP
+NN_OBJ -> FAN | ENVIRONMENT | AC | SWING | USER
+NN_PROP -> VOLUME | TEMPERATURE | HUMIDITY | BREEZE | MODE
+PP -> IN PLACE
+PLACE -> "here" | "there" | DT ENVIRONMENT
+DT -> "the"
+IN -> "in" | "over" | "of" | "by" | "at" | "from" | "to"
+VBZ -> BE | FEEL
+RB_P -> "too" | "quite" | "very" | "so" 
+RB_N -> "enough"
+USER -> PERSON | PET
+PERSON -> "i"
+PET -> "dog" | "cat"
+VALUE -> LOW | HIGH | HOT | COLD | DRY | HUMID | FAST | SLOW | WEAK | STRONG | CO UNIT | CO | MODES | DT MODES
+NEG -> "not"
+FAN -> "fan"
+SWING -> "swing" | "flap"
+ENVIRONMENT -> "environment" | "air" | "room" | "it"
+AC -> "ac" | "air" "conditioner" | "air-conditioner" | "it" | "air"
+VOLUME -> "volume" | "speed"
+TEMPERATURE -> "temperature" | "heat" 
+HUMIDITY -> "humidity"
+DRY -> "dry" | "dehydrated" | "moistureless"
+HUMID -> "humid" | "damp"
+HOT -> "hot" | "burning" | "boiling" | "warm"
+COLD -> "cold" | "icy" | "freezing"
+FAST -> "fast"
+SLOW -> "slow"
+BE -> "is" | "am" | "are"
+FEEL -> "feel" | "feels"
+WEAK -> "weak"
+STRONG -> "strong"
+LOW -> "low"
+HIGH -> "high"
+VBG -> "running" | "working" | "swinging" | "moving" | "feeling"
+BREEZE -> "breeze" | "air" | "wind" 
+
+S_DIRECT -> COMP | COMP  VARP 
+COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT
+VARP -> IN VALUE | IN VALUE IN VALUE
+ACT -> ACTIVATE | INCREASE | DECREASE | STOP | COOL_ACT | DRY_ACT | SWING_ACT | SPEED_ACT | TURN_ACT
+ACTIVATE -> "activate" | "set"
+INCREASE -> "increase" | "raise"
+DECREASE -> "decrease" | "reduce" | "lower" 
+STOP -> "stop" | "pause"
+COOL_ACT -> "cool"
+DRY_ACT -> "dry"
+SWING_ACT -> "swing"
+SPEED_ACT -> "speed"
+TURN_ACT -> "turn"
+DIR -> "up" | "off" | "on" | "down"
+MODE -> "mode"
+CO -> "hey_num"
+UNIT -> DEGREE | AM | PM | O_CLOCK | PERCENT
+DEGREE -> "degree" | "degrees"
+AM -> "am" | "a.m."
+PM -> "pm" | "p.m."
+O_CLOCK -> "o'clock" | "o" "clock"
+PERCENT -> "percent" | "%"
+MODES -> FAN_MODE MODE | COOL_MODE MODE | DRY_MODE MODE | HEAT_MODE MODE
+FAN_MODE -> "fan"
+COOL_MODE -> "cooling" | "cool"
+DRY_MODE -> "dry" | "drying"
+HEAT_MODE -> "heat" | "heating"

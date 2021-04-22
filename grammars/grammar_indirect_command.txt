@@ -1,16 +1,21 @@
 S -> NP VP
 NP -> PROPERTY IN OBJECT | OBJECT PROPERTY | PROPERTY | OBJECT
-OBJECT -> DT NN_OBJ | NN_OBJ | USER | DT USER
+OBJECT -> DT NN_OBJ | NN_OBJ
 PROPERTY -> DT NN_PROP | NN_PROP
-VP -> VBZ ADJP | VBZ NEG ADJP | VBZ VBG | VBZ NEG VBG
-ADJP -> RB VALUE | VALUE
-NN_OBJ -> FAN | ENVIRONMENT | AC | SWING
+VP -> VBZ ADJP | VBZ NEG ADJP | VBZ VBG | VBZ NEG VBG | VBZ VBG ADJP | VBZ NEG VBG ADJP
+ADJP -> RB_P VALUE | VALUE | VALUE PP | VALUE RB_N | VALUE RB_N PP | RB_P VALUE PP
+NN_OBJ -> FAN | ENVIRONMENT | AC | SWING | USER
 NN_PROP -> VOLUME | TEMPERATURE | HUMIDITY | BREEZE
+PP -> IN PLACE
+PLACE -> "here" | "there" | DT ENVIRONMENT
 DT -> "the"
-IN -> "of" | "from"
+IN -> "in" | "over" | "of" | "from"
 VBZ -> BE | FEEL
-RB -> "too" | "quite" | "very" | "so" 
-USER -> "i" | "dog" | "cat" 
+RB_P -> "too" | "quite" | "very" | "so" 
+RB_N -> "enough"
+USER -> PERSON | DT PET | PET
+PERSON -> "i"
+PET -> "dog" | "cat"
 VALUE -> LOW | HIGH | HOT | COLD | DRY | HUMID | FAST | SLOW | WEAK | STRONG
 NEG -> "not"
 FAN -> "fan"
@@ -20,9 +25,9 @@ AC -> "ac" | "air conditioner" | "air-conditioner" | "it"
 VOLUME -> "volume" | "speed"
 TEMPERATURE -> "temperature" | "heat" 
 HUMIDITY -> "humidity"
-DRY -> "dry" | "dehydrated"
+DRY -> "dry" | "dehydrated" | "moistureless"
 HUMID -> "humid" | "damp"
-HOT -> "hot" | "burning" | "boiling"
+HOT -> "hot" | "burning" | "boiling" | "warm"
 COLD -> "cold" | "icy" | "freezing"
 FAST -> "fast"
 SLOW -> "slow"
@@ -32,5 +37,5 @@ WEAK -> "weak"
 STRONG -> "strong"
 LOW -> "low"
 HIGH -> "high"
-VBG -> "running" | "working" | "swinging" | "moving"
+VBG -> "running" | "working" | "swinging" | "moving" | "feeling"
 BREEZE -> "breeze" | "air" | "wind" 
