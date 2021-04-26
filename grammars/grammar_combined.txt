@@ -7,10 +7,10 @@ VP -> VBZ ADJP | VBZ NEG ADJP | VBZ VBG | VBZ NEG VBG | VBZ VBG ADJP | VBZ NEG V
 ADJP -> RB_P VALUE | VALUE | VALUE PP | VALUE RB_N | VALUE RB_N PP | RB_P VALUE PP
 NN_OBJ -> FAN | ENVIRONMENT | AC | SWING | USER
 NN_PROP -> VOLUME | TEMPERATURE | HUMIDITY | BREEZE | MODE
-PP -> IN PLACE
-PLACE -> "here" | "there" | DT ENVIRONMENT
+PP -> IN PLACE | PLACE
+PLACE -> "here" | "there" | DT ENVIRONMENT | ENVIRONMENT | "now"
 DT -> "the"
-IN -> "in" | "over" | "of" | "by" | "at" | "from" | "to"
+IN -> "in" | "over" | "of" | "by" | "at" | "from" | "to" | "right" 
 VBZ -> BE | FEEL
 RB_P -> "too" | "quite" | "very" | "so" 
 RB_N -> "enough"
@@ -21,7 +21,7 @@ VALUE -> LOW | HIGH | HOT | COLD | DRY | HUMID | FAST | SLOW | WEAK | STRONG | C
 NEG -> "not"
 FAN -> "fan"
 SWING -> "swing" | "flap"
-ENVIRONMENT -> "environment" | "air" | "room" | "it"
+ENVIRONMENT -> "environment" | "air" | "room" | "it" | "today"
 AC -> "ac" | "air" "conditioner" | "air-conditioner" | "it" | "air"
 VOLUME -> "volume" | "speed"
 TEMPERATURE -> "temperature" | "heat" 
@@ -42,10 +42,11 @@ VBG -> "running" | "working" | "swinging" | "moving" | "feeling"
 BREEZE -> "breeze" | "air" | "wind" 
 
 S_DIRECT -> COMP | COMP  VARP 
-COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT
+COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT | ACT DIR
 VARP -> IN VALUE | IN VALUE IN VALUE
-ACT -> ACTIVATE | INCREASE | DECREASE | STOP | COOL_ACT | DRY_ACT | SWING_ACT | SPEED_ACT | TURN_ACT
-ACTIVATE -> "activate" | "set"
+ACT -> ACTIVATE | INCREASE | DECREASE | STOP | COOL_ACT | DRY_ACT | SWING_ACT | SPEED_ACT | TURN_ACT | SET
+ACTIVATE -> "activate" | "start"
+SET -> "set"
 INCREASE -> "increase" | "raise"
 DECREASE -> "decrease" | "reduce" | "lower" 
 STOP -> "stop" | "pause"
@@ -54,7 +55,9 @@ DRY_ACT -> "dry"
 SWING_ACT -> "swing"
 SPEED_ACT -> "speed"
 TURN_ACT -> "turn"
-DIR -> "up" | "off" | "on" | "down"
+DIR -> UP | "off" | "on" | DOWN
+UP -> "up" | "upwards"
+DOWN -> "down" | "downwards"
 MODE -> "mode"
 CO -> "hey_num"
 UNIT -> DEGREE | AM | PM | O_CLOCK | PERCENT
