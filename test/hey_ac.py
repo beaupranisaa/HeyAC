@@ -47,6 +47,7 @@ class HeyAC:
                     'TURN_OFF':f'{RESPONSE} Stopping ac at {var[0]}.',
                     'SET_MODE':f'{RESPONSE} Set mode to {var[0]}.',
                     'SET_TEMP':f'{RESPONSE} Set temperature to {var[0]}.',
+                    'SET_FAN':f'{RESPONSE} Set fan speed to {var[0]}.',
                     'SET_HUMIDITY':f'{RESPONSE} Set humidity to {var[0]}.',
                     }
 
@@ -165,6 +166,8 @@ class HeyAC:
                     key = 'SET_TEMP'
                 elif prop == 'HUMIDITY':
                     key = 'SET_HUMIDITY'
+                elif prop == 'VOLUME' or obj == 'FAN':
+                    key = 'SET_FAN'
                 elif prop == 'MODE':
                     key = 'SET_MODE'
                 elif value != []:
