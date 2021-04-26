@@ -18,8 +18,6 @@ class HeyAC:
         else:
             no_var = 0
 
-        print(no_var, key, var)
-
         if no_var == 0:
             response = { 
                     "TEMP_UP":f"{RESPONSE} Increasing the temperature.",

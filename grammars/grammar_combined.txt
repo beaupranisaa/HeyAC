@@ -8,7 +8,7 @@ ADJP -> RB_P VALUE | VALUE | VALUE PP | VALUE RB_N | VALUE RB_N PP | RB_P VALUE 
 NN_OBJ -> FAN | ENVIRONMENT | AC | SWING | USER
 NN_PROP -> VOLUME | TEMPERATURE | HUMIDITY | BREEZE | MODE
 PP -> IN PLACE | PLACE
-PLACE -> "here" | "there" | DT ENVIRONMENT | ENVIRONMENT
+PLACE -> "here" | "there" | DT ENVIRONMENT | ENVIRONMENT | "now"
 DT -> "the"
 IN -> "in" | "over" | "of" | "by" | "at" | "from" | "to" | "right" 
 VBZ -> BE | FEEL
