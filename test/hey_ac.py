@@ -16,8 +16,165 @@ class HeyAC:
         '''
         harvest = self.prune(text)
 
+        RESPONSE = "[RESPONSE]"
+        response = { 
+                "TEMP_UP":f"{RESPONSE} Increasing the temperature.",
+                "TEMP_DOWN":f"{RESPONSE} Decreasing the temperature.",
+                "HUMIDITY_UP":f"{RESPONSE} Condensing the room.",
+                "HUMIDITY_DOWN":f"{RESPONSE} Drying the room.",
+                'FAN_UP':f'{RESPONSE} Increasing the air volume.',
+                'FAN_DOWN':f'{RESPONSE} Decreasing the air volume.',
+                'SWING_DOWN':f'{RESPONSE} Swinging downwards.',
+                'SWING_UP':f'{RESPONSE} Swinging upwards.',
+                'SWING_START':f'{RESPONSE} Started swinging.',
+                'SWING_STOP':f'{RESPONSE} Stopped swinging.',
+                'TURN_ON':f'{RESPONSE} Started AC.',
+                'TURN_OFF':f'{RESPONSE} Stopped AC.',
+                }
+
         if harvest['ACT'] is not None:
             print("[DIRECT COMMAND]")
+
+            act = harvest['ACT']
+
+            if harvest['NN_PROP']:
+                prop = harvest['NN_PROP']
+                print('[PROP]', prop)
+            else:
+                prop = None
+
+            if harvest['NN_OBJ']:
+                obj = harvest['NN_OBJ']
+                print('[OBJ]', obj)
+            else:
+                obj = None
+
+            if harvest['DIR']:
+                direction = harvest['DIR']
+                print('[DIR]',direction)
+            else:
+                direction = None
+            
+            if harvest['VALUE']:
+                value = harvest['VALUE']
+                print('[VALUE]',value)
+            else:
+                value = None
+
+            if harvest['UNIT']:
+                unit = harvest['UNIT']
+                print('[UNIT]',unit)
+            else:
+                unit = None
+
+            if act == 'ACTIVATE' or (act == 'TURN_ACT' and direction == 'ON'):
+                if obj in ['AC','FAN']:
+                    if unit == 'DEGREE':
+                        resp = 'turn on ac to VALUE'
+                    elif unit in ['PM', 'AM', "O_CLOCK"]:
+                        resp = 'turn on ac from VALUE[0] [to VALUE[1]]'
+                    else:
+                        resp = 'turn on ac'
+                elif obj == 'SWING':
+                    resp = 'turn on swing'
+                elif value == 'MODES':
+                    resp = 'set to MODE'
+            elif act == 'STOP' or (act == 'TURN_ACT' and direction == 'OFF'):
+                if obj in ['AC','FAN']:
+                    resp = 'turn off ac'
+                elif obj == 'SWING':
+                    resp = 'turn off swing'
+            elif act == 'INCREASE' or (act == 'TURN_ACT' and direction == 'UP'):
+                if prop == 'TEMPERATURE':
+                    if value:
+                        resp = 'increase temperature to VALUE'
+                    else:
+                        resp = 'increase temperature'
+                elif (prop in ['BREEZE', 'VOLUME']) or (obj == 'FAN'):
+                    if value:
+                        resp = 'increase fan to VALUE'
+                    else:
+                        resp = 'increase fan'
+                elif prop == 'HUMIDITY':
+                    if value:
+                        resp = 'increase humidity to VALUE'
+                    else:
+                        resp = 'increase humidity'
+                elif obj == 'SWING':
+                    if value:
+                        resp = 'swing to VALUE'
+                    else:
+                        resp == 'swing up'
+            elif act == 'DECREASE' or (act == 'TURN_DOWN' and direction == 'DOWN'):
+                if prop == 'TEMPERATURE':
+                    if value:
+                        resp = 'decrease temperature to VALUE'
+                    else:
+                        resp = 'decrease temperature'
+                elif (prop == in ['BREEZE', 'VOLUME']) or (obj == 'FAN'):
+                    if value:
+                        resp = 'decrase fan to VALUE'
+                    else:
+                        resp = 'decrease fan'
+                elif prop == 'HUMIDITY':
+                    if VALUE:
+                        resp = 'decrease humidity to VALUE'
+                    else:
+                        resp = 'decrease humidity'
+                elif obj == 'FAN':
+                    if value:
+                        resp = 'decrease fan to VALUE'
+                    else:
+                        resp = 'decrease fan'
+                elif obj == 'SWING':
+                    if value:
+                        resp = 'swing down to VALUE'
+                    else:
+                        resp == 'swing down'
+            elif act == 'COOL_ACT':
+                if value:
+                    resp = 'decrease temperature to VALUE'
+                else:
+                    resp = 'decrease temperature'
+            elif act == 'DRY_ACT':
+                if value:
+                    resp = 'decrease humidity to VALUE'
+                else:
+                    resp = 'decrease humidity'
+            elif act == 'SWING_ACT':
+                if direction == 'UP':
+                    if value:
+                        resp = 'swing up to VALUE'
+                    else:
+                        resp = 'swing up'
+                elif direction == 'DOWN':
+                    if value:
+                        resp = 'swing down to VALUE'
+                    else:
+                        resp = 'swing down'
+                elif direction == 'OFF':
+                    resp = 'stop swing'
+                else:
+                    resp = 'start swing'
+            elif act == 'SPEED_ACT':
+                if direction == 'UP':
+                    if value:
+                        resp = 'increase fan to VALUE'
+                    else:
+                        resp = 'increase fan'
+                elif direction == 'DOWN':
+                    if value:
+                        resp = 'decrease fan to VALUE'
+                    else:
+                        resp = 'decrease fan'
+            elif act == 'SET':
+                if prop == 'TEMPERATURE':
+                    resp = 'set temp to VALUE'
+                elif prop == 'HUMIDITY':
+                    resp = 'set humidity to VALUE'
+                elif prop == 'MODE':
+                    resp = 'set mode to VALUE'
+
         else:
             print("[INDIRECT COMMAND]")
             if harvest['VALUE'] is not None:
@@ -44,48 +201,39 @@ class HeyAC:
             else:
                 obj = None
 
-            RESPONSE = "[RESPONSE]"
-            response = { 
-                    "TEMP_UP":f"{RESPONSE} Increasing the temperature.",
-                    "TEMP_DOWN":f"{RESPONSE} Decreasing the temperature.",
-                    "HUMIDITY_UP":f"{RESPONSE} Condensing the room.",
-                    "HUMIDITY_DOWN":f"{RESPONSE} Drying the room.",
-                    'FAN_UP':f'{RESPONSE} Increasing the air volume.',
-                    'FAN_DOWN':f'{RESPONSE} Decreasing the air volume.',
-                    'SWING_DOWN':f'{RESPONSE} Swinging downwards.',
-                    'SWING_UP':f'{RESPONSE} Swinging upwards.',
-                    }
 
             if value in ["COLD", "HOT", "DRY" , "HUMID", "STRONG", "FAST", "WEAK", "SLOW"]:
                 if (value == "COLD" and neg == False) or (value == "HOT" and neg == True):
-                    print(response['TEMP_UP'])
+                    resp = 'TEMP_UP'
                 elif (value == "HOT" and neg == False) or (value == "COLD" and neg == True):
-                    print(response['TEMP_DOWN'])
+                    resp = 'TEMP_DOWN'
                 elif (value == "DRY" and neg == False) or (value == "HUMID" and neg == True):
-                    print(response['HUMIDITY_UP'])
+                    resp = 'HUMIDITY_UP'
                 elif (value == "HUMID" and neg == False) or (value == "DRY" and neg == True):
-                    print(response['HUMIDITY_DOWN'])
+                    resp = 'HUMIDITY_DOWN'
                 elif (value in ["STRONG", "FAST"] and neg == False) or (value in ["WEAK", "SLOW"] and neg == True):
-                    print(response['FAN_DOWN'])
+                    resp = 'FAN_DOWN'
                 elif (value in ["STRONG", "FAST"] and neg == True) or (value in ["WEAK", "SLOW"] and neg == False):
-                    print(response['FAN_UP'])
+                    resp = 'FAN_UP'
 
             if prop == 'VOLUME' and (value in ["HIGH"]):
-                print(response['FAN_DOWN'])
+                resp = 'FAN_DOWN'
             elif prop == 'VOLUME' and (value in ["LOW"]):
-                print(response['FAN_UP'])
+                resp = 'FAN_UP'
             elif prop == 'TEMPERATURE' and (value in ['HIGH']):
-                print(response['TEMP_DOWN'])
+                resp = 'TEMP_DOWN'
             elif prop == 'TEMPERATURE' and (value in ['LOW']):
-                print(response['TEMP_UP'])
+                resp = 'TEMP_UP'
             elif prop == 'HUMIDITY' and (value in ['LOW']):
-                print(response['HUMIDITY_UP'])
+                resp = 'HUMIDITY_UP'
             elif prop == 'HUMIDITY' and (value in ['HIGH']):
-                print(response['HUMIDITY_DOWN'])
+                resp = 'HUMIDITY_DOWN'
             elif (prop == 'BREEZE' or obj in ['FAN', 'SWING']) and value in ['HIGH']:
-                print(response['SWING_DOWN'])
+                resp = 'SWING_DOWN'
             elif (prop == 'BREEZE' or obj in ["FAN", 'SWING']) and value in ['LOW']:
-                print(response['SWING_UP'])
+                resp = 'SWING_UP'
+
+        print(response[resp])
 
     def prune(self, text):
         '''
