@@ -166,7 +166,7 @@ class HeyAC:
                     key = 'SET_TEMP'
                 elif prop == 'HUMIDITY':
                     key = 'SET_HUMIDITY'
-                elif prop == 'SPEED' or obj == 'FAN':
+                elif prop == 'VOLUME' or obj == 'FAN':
                     key = 'SET_FAN'
                 elif prop == 'MODE':
                     key = 'SET_MODE'
