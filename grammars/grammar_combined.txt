@@ -42,7 +42,7 @@ VBG -> "running" | "working" | "swinging" | "moving" | "feeling"
 BREEZE -> "breeze" | "air" | "wind" 
 
 S_DIRECT -> COMP | COMP  VARP 
-COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT
+COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT | ACT DIR
 VARP -> IN VALUE | IN VALUE IN VALUE
 ACT -> ACTIVATE | INCREASE | DECREASE | STOP | COOL_ACT | DRY_ACT | SWING_ACT | SPEED_ACT | TURN_ACT | SET
 ACTIVATE -> "activate" | "start"
@@ -55,7 +55,9 @@ DRY_ACT -> "dry"
 SWING_ACT -> "swing"
 SPEED_ACT -> "speed"
 TURN_ACT -> "turn"
-DIR -> "up" | "off" | "on" | "down"
+DIR -> UP | "off" | "on" | DOWN
+UP -> "up" | "upwards"
+DOWN -> "down" | "downwards"
 MODE -> "mode"
 CO -> "hey_num"
 UNIT -> DEGREE | AM | PM | O_CLOCK | PERCENT
