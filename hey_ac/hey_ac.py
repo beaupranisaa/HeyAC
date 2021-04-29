@@ -1,11 +1,11 @@
 import nltk
 from nltk.stem import WordNetLemmatizer
 from nltk.tree import Tree
-from utils import *
+from .utils import *
 from textblob import TextBlob
 
 class HeyAC:
-    def __init__(self, grammar_path='../grammars/grammar_combined.txt'):
+    def __init__(self, grammar_path='grammars/grammar_combined.txt'):
         self.lemmatizer = WordNetLemmatizer()
         self.grammar = nltk.CFG.fromstring(open(grammar_path, "r"))
         self.parser = nltk.RecursiveDescentParser(self.grammar)
