@@ -1,4 +1,4 @@
-# Hey_AC
+#Hey_AC
 
 ## Getting Started:
 
@@ -6,12 +6,6 @@
 ```console
 pip install -r requirements.txt
 ```
-
-## Todo:
-
-- [ ] Create PRECISE grammars
-- [ ] Specify basewords
-
 
 ## References
 
