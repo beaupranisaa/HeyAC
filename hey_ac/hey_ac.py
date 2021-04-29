@@ -70,7 +70,7 @@ class HeyAC:
         try:
             resp = response[key]
         except:
-            resp = '[ERROR]'
+            resp = '[ERROR] What do you mean?'
         return resp
 
     def classify(self, text):
@@ -126,7 +126,7 @@ class HeyAC:
             elif act == 'INCREASE' or (act == 'TURN_ACT' and direction == 'UP'):
                 if prop == 'TEMPERATURE':
                     key = 'TEMP_UP'
-                elif (prop in ['BREEZE', 'VOLUME']) or (obj == 'FAN'):
+                elif (prop in ['BREEZE', 'VOLUME']) or (obj in ['FAN','AC','ENVIRONMENT']):
                     key = 'FAN_UP'
                 elif prop == 'HUMIDITY':
                     key = 'HUMIDITY_UP'
@@ -135,7 +135,7 @@ class HeyAC:
             elif act == 'DECREASE' or (act == 'TURN_DOWN' and direction == 'DOWN'):
                 if prop == 'TEMPERATURE':
                     key = 'TEMP_DOWN'
-                elif (prop in ['BREEZE', 'VOLUME']) or (obj == 'FAN'):
+                elif (prop in ['BREEZE', 'VOLUME']) or (obj == ['FAN','AC','ENVIRONMENT']):
                     key = 'FAN_DOWN'
                 elif prop == 'HUMIDITY':
                     key = 'HUMIDITY_DOWN'
