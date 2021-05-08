@@ -140,7 +140,7 @@ class HeyAC:
             elif act == 'DECREASE' or (act == 'TURN_ACT' and direction == 'DOWN'):
                 if prop == 'TEMPERATURE':
                     key = 'TEMP_DOWN'
-                elif (prop in ['BREEZE', 'VOLUME']) or (obj == ['FAN','AC','ENVIRONMENT']):
+                elif (prop in ['BREEZE', 'VOLUME']) or (obj in ['FAN','AC','ENVIRONMENT']):
                     key = 'FAN_DOWN'
                 elif prop == 'HUMIDITY':
                     key = 'HUMIDITY_DOWN'
