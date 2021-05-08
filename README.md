@@ -1,6 +1,6 @@
 # Hey AC, it's hot in here!
 
-Classifying AC commands with syntactic parsing and a custom grammar.
+Classifying AC commands with syntactic parsing on a custom grammar.
 
 ## Getting Started:
 
