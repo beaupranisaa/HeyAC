@@ -11,6 +11,10 @@ class HeyAC:
         self.parser = nltk.RecursiveDescentParser(self.grammar)
 
     def _response_str(self, key, var):
+
+        print('[KEY]',key)
+        print()
+
         RESPONSE = "[RESPONSE]"
         
         if type(var) == list:
@@ -22,7 +26,7 @@ class HeyAC:
             response = { 
                     "TEMP_UP":f"{RESPONSE} Increasing the temperature.",
                     "TEMP_DOWN":f"{RESPONSE} Decreasing the temperature.",
-                    "HUMIDITY_UP":f"{RESPONSE} Condensing the room.",
+                    "HUMIDITY_UP":f"{RESPONSE} Humidifying the room.",
                     "HUMIDITY_DOWN":f"{RESPONSE} Drying the room.",
                     'FAN_UP':f'{RESPONSE} Increasing the air volume.',
                     'FAN_DOWN':f'{RESPONSE} Decreasing the air volume.',
@@ -70,7 +74,7 @@ class HeyAC:
         try:
             resp = response[key]
         except:
-            resp = '[ERROR]'
+            resp = '[ERROR] What do you mean?'
         return resp
 
     def classify(self, text):
@@ -86,6 +90,7 @@ class HeyAC:
             print("[DIRECT COMMAND]")
 
             act = harvest['ACT']
+            print('[ACT]',act)
 
             if harvest['NN_PROP']:
                 prop = harvest['NN_PROP']
@@ -126,16 +131,16 @@ class HeyAC:
             elif act == 'INCREASE' or (act == 'TURN_ACT' and direction == 'UP'):
                 if prop == 'TEMPERATURE':
                     key = 'TEMP_UP'
-                elif (prop in ['BREEZE', 'VOLUME']) or (obj == 'FAN'):
+                elif (prop in ['BREEZE', 'VOLUME']) or (obj in ['FAN','AC','ENVIRONMENT']):
                     key = 'FAN_UP'
                 elif prop == 'HUMIDITY':
                     key = 'HUMIDITY_UP'
                 elif obj == 'SWING':
                     key = "SWING_UP"
-            elif act == 'DECREASE' or (act == 'TURN_DOWN' and direction == 'DOWN'):
+            elif act == 'DECREASE' or (act == 'TURN_ACT' and direction == 'DOWN'):
                 if prop == 'TEMPERATURE':
                     key = 'TEMP_DOWN'
-                elif (prop in ['BREEZE', 'VOLUME']) or (obj == 'FAN'):
+                elif (prop in ['BREEZE', 'VOLUME']) or (obj == ['FAN','AC','ENVIRONMENT']):
                     key = 'FAN_DOWN'
                 elif prop == 'HUMIDITY':
                     key = 'HUMIDITY_DOWN'
@@ -190,7 +195,7 @@ class HeyAC:
                 print(self._response_str(key, None))
         else:
             print("[INDIRECT COMMAND]")
-            if harvest['VALUE'] is not None:
+            if len(harvest['VALUE']) > 0:
                 value = harvest['VALUE']
             else:
                 value = harvest['VBG']
@@ -214,36 +219,64 @@ class HeyAC:
             else:
                 obj = None
 
-            if value in ["COLD", "HOT", "DRY" , "HUMID", "STRONG", "FAST", "WEAK", "SLOW"]:
-                if (value == "COLD" and neg == False) or (value == "HOT" and neg == True):
-                    key = 'TEMP_UP'
-                elif (value == "HOT" and neg == False) or (value == "COLD" and neg == True):
-                    key = 'TEMP_DOWN'
-                elif (value == "DRY" and neg == False) or (value == "HUMID" and neg == True):
-                    key = 'HUMIDITY_UP'
-                elif (value == "HUMID" and neg == False) or (value == "DRY" and neg == True):
-                    key = 'HUMIDITY_DOWN'
-                elif (value in ["STRONG", "FAST"] and neg == False) or (value in ["WEAK", "SLOW"] and neg == True):
-                    key = 'FAN_DOWN'
-                elif (value in ["STRONG", "FAST"] and neg == True) or (value in ["WEAK", "SLOW"] and neg == False):
-                    key = 'FAN_UP'
-
-            if prop == 'VOLUME' and (value in ["HIGH"]):
-                key = 'FAN_DOWN'
-            elif prop == 'VOLUME' and (value in ["LOW"]):
-                key = 'FAN_UP'
-            elif prop == 'TEMPERATURE' and (value in ['HIGH']):
-                key = 'TEMP_DOWN'
-            elif prop == 'TEMPERATURE' and (value in ['LOW']):
+            if (value == "COLD" and neg == False) or (value == "HOT" and neg == True):
                 key = 'TEMP_UP'
-            elif prop == 'HUMIDITY' and (value in ['LOW']):
+            elif (value == "HOT" and neg == False) or (value == "COLD" and neg == True):
+                key = 'TEMP_DOWN'
+            elif (value == "DRY" and neg == False) or (value == "HUMID" and neg == True):
                 key = 'HUMIDITY_UP'
-            elif prop == 'HUMIDITY' and (value in ['HIGH']):
+            elif (value == "HUMID" and neg == False) or (value == "DRY" and neg == True):
                 key = 'HUMIDITY_DOWN'
-            elif (prop == 'BREEZE' or obj in ['FAN', 'SWING']) and value in ['HIGH']:
+            elif (value in ["STRONG", "FAST"] and neg == False) or (value in ["WEAK", "SLOW"] and neg == True):
+                key = 'FAN_DOWN'
+            elif (value in ["STRONG", "FAST"] and neg == True) or (value in ["WEAK", "SLOW"] and neg == False):
+                key = 'FAN_UP'
+
+            elif prop == 'VOLUME' and (value in ["HIGH"]) and neg == False:
+                key = 'FAN_DOWN'
+            elif prop == 'VOLUME' and (value in ["LOW"] and neg == False):
+                key = 'FAN_UP'
+            elif prop == 'TEMPERATURE' and (value in ['HIGH'] and neg == False):
+                key = 'TEMP_DOWN'
+            elif prop == 'TEMPERATURE' and (value in ['LOW'] and neg == False):
+                key = 'TEMP_UP'
+            elif prop == 'HUMIDITY' and (value in ['LOW'] and neg == False):
+                key = 'HUMIDITY_UP'
+            elif prop == 'HUMIDITY' and (value in ['HIGH'] and neg == False):
+                key = 'HUMIDITY_DOWN'
+            elif (prop == 'BREEZE' or obj in ['FAN', 'SWING']) and value in ['HIGH'] and neg == False:
                 key = 'SWING_DOWN'
-            elif (prop == 'BREEZE' or obj in ["FAN", 'SWING']) and value in ['LOW']:
+            elif (prop == 'BREEZE' or obj in ["FAN", 'SWING']) and value in ['LOW'] and neg == False:
                 key = 'SWING_UP'
+            elif (obj in ["FAN", "AC", "ENVIRONMENT"]) and value in ["RUNNING", "WORKING"] and neg == False:
+                key = 'TURN_OFF'
+            elif value == "SWINGING" and neg == False:
+                key = 'SWING_STOP'
+            elif (obj == "SWING" and value in ["MOVING", "RUNNING", "WORKING"] and neg == False):
+                key = "SWING_STOP"
+
+            elif prop == 'VOLUME' and (value in ["HIGH"]) and neg == True:
+                key = 'FAN_UP'
+            elif prop == 'VOLUME' and (value in ["LOW"] and neg == True):
+                key = 'FAN_DOWN'
+            elif prop == 'TEMPERATURE' and (value in ['HIGH'] and neg == True):
+                key = 'TEMP_UP'
+            elif prop == 'TEMPERATURE' and (value in ['LOW'] and neg == True):
+                key = 'TEMP_DOWN'
+            elif prop == 'HUMIDITY' and (value in ['LOW'] and neg == True):
+                key = 'HUMIDITY_DOWN'
+            elif prop == 'HUMIDITY' and (value in ['HIGH'] and neg == True):
+                key = 'HUMIDITY_UP'
+            elif (prop == 'BREEZE' or obj in ['FAN', 'SWING']) and value in ['HIGH'] and neg == True:
+                key = 'SWING_UP'
+            elif (prop == 'BREEZE' or obj in ["FAN", 'SWING']) and value in ['LOW'] and neg == True:
+                key = 'SWING_DOWN'
+            elif (obj in ["FAN", "AC", "ENVIRONMENT"]) and value in ["RUNNING", "WORKING"] and neg == True:
+                key = 'TURN_ON'
+            elif value == "SWINGING" and neg == True:
+                key = 'SWING_START'
+            elif (obj == "SWING" and value in ["MOVING", "RUNNING", "WORKING"] and neg == True):
+                key = "SWING_START"
 
             print(self._response_str(key, None))
 
