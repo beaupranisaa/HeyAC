@@ -1,2 +1,3 @@
 nltk
 textblob
+PyYAML
