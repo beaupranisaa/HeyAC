@@ -21,7 +21,7 @@ VALUE -> LOW | HIGH | HOT | COLD | DRY | HUMID | FAST | SLOW | WEAK | STRONG | C
 NEG -> "not"
 FAN -> "fan"
 SWING -> "swing" | "flap"
-ENVIRONMENT -> "environment" | "air" | "room" | "it" | "today"
+ENVIRONMENT -> "environment" | "air" | "room" | "it" | "today" | "weather" | "weather" "today" 
 AC -> "ac" | "air" "conditioner" | "air-conditioner" | "it" | "air"
 VOLUME -> "volume" | "speed" | "velocity"
 TEMPERATURE -> "temperature" | "heat" 
