@@ -175,9 +175,53 @@ class HeyAC:
                     key = 'SET_FAN'
                 elif prop == 'MODE':
                     key = 'SET_MODE'
-                elif value != []:
+                elif type(value) == list and len(value) > 0:
                     key = 'SET_MODE'
-            if value:
+
+                elif value == 'HOT':
+                    key = 'TEMP_UP'
+                elif value == 'COLD':
+                    key = 'TEMP_DOWN'
+                elif value == 'DRY':
+                    key = 'HUMIDITY_DOWN'
+                elif value == 'HUMID':
+                    key = 'HUMIDITY_UP'
+                elif value == 'LOW':
+                    if prop == 'TEMPERATURE':
+                        key = 'TEMP_DOWN'
+                    elif prop == 'VOLUME':
+                        key = 'FAN_DOWN'
+                    elif prop == 'HUMIDITY':
+                        key = 'HUMIDITY_DOWN'
+                    elif prop == 'BREEZE':
+                        key = 'FAN_DOWN'
+                    elif obj  == 'FAN':
+                        key = 'FAN_DOWN'
+                    elif obj == 'ENVIRONMENT':
+                        key = 'TEMP_DOWN'
+                    elif obj == 'AC':
+                        key = 'TEMP_DOWN'
+                    elif obj == 'SWING':
+                        key = 'SWING_DOWN'
+                elif value == 'HIGH':
+                    if prop == 'TEMPERATURE':
+                        key = 'TEMP_UP'
+                    elif prop == 'VOLUME':
+                        key = 'FAN_UP'
+                    elif prop == 'HUMIDITY':
+                        key = 'HUMIDITY_UP'
+                    elif prop == 'BREEZE':
+                        key = 'FAN_UP'
+                    elif obj  == 'FAN':
+                        key = 'FAN_UP'
+                    elif obj == 'ENVIRONMENT':
+                        key = 'TEMP_UP'
+                    elif obj == 'AC':
+                        key = 'TEMP_UP'
+                    elif obj == 'SWING':
+                        key = 'SWING_UP'
+
+            if type(value) == list:
                 var = []
                 for val in harvest['VALUE']:
                     if val['MODES']:
