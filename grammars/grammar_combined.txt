@@ -1,6 +1,6 @@
 S -> S_INDIRECT | S_DIRECT
 S_INDIRECT -> NP VP
-NP -> PROPERTY IN OBJECT | OBJECT PROPERTY | PROPERTY | OBJECT | VALUE
+NP -> PROPERTY IN OBJECT | OBJECT PROPERTY | PROPERTY | OBJECT 
 OBJECT -> DT NN_OBJ | NN_OBJ
 PROPERTY -> DT NN_PROP | NN_PROP
 VP -> VBZ ADJP | VBZ NEG ADJP | VBZ VBG | VBZ NEG VBG | VBZ VBG ADJP | VBZ NEG VBG ADJP
@@ -26,10 +26,10 @@ AC -> "ac" | "air" "conditioner" | "air-conditioner" | "it" | "air"
 VOLUME -> "volume" | "speed" | "velocity"
 TEMPERATURE -> "temperature" | "heat" 
 HUMIDITY -> "humidity"
-DRY -> "dry" | "dehydrated" | "moistureless"
-HUMID -> "humid" | "damp"
-HOT -> "hot" | "burning" | "boiling" | "warm"
-COLD -> "cold" | "icy" | "freezing"
+DRY -> "dry" | "dehydrated" | "moistureless" | "air-dry" | "arid" | "waterless" | "rainess" | "bone-dry" | "bone" "dry" | "sunbaked" | "adust"
+HUMID -> "humid" | "damp" | "wet"
+HOT -> "hot" | "burning" | "boiling" | "warm" | "blistering" | "baking" "hot" | "heated" | "hottish" | "overheated" | "red-hot" | "scorching" | "sizzling" | "tropical"
+COLD -> "cold" | "icy" | "freezing" | "ice-cold" | "shivery" | "stone-cold" | "unheated" | "unwarmed" | "heatless" | "chilly" | "frosty" | "icy" | "glacial" | "polar" | "acold"
 FAST -> "fast"
 SLOW -> "slow"
 BE -> "is" | "am" | "are"
@@ -43,10 +43,10 @@ BREEZE -> "breeze" | "air" | "wind"
 
 S_DIRECT -> COMP | COMP  VARP 
 COMP -> ACT DIR NP | ACT NP DIR | ACT NP | ACT | ACT DIR
-VARP -> IN VALUE | IN VALUE IN VALUE
+VARP -> IN VALUE | IN VALUE IN VALUE | VALUE
 ACT -> ACTIVATE | INCREASE | DECREASE | STOP | COOL_ACT | DRY_ACT | SWING_ACT | SPEED_ACT | TURN_ACT | SET
 ACTIVATE -> "activate" | "start"
-SET -> "set"
+SET -> "set" | "make"
 INCREASE -> "increase" | "raise"
 DECREASE -> "decrease" | "reduce" | "lower" 
 STOP -> "stop" | "pause"
